@@ -1,5 +1,6 @@
 import React from 'react';
-import {TouchableOpacity, Text, StyleSheet, Image, View} from 'react-native';
+import {TouchableOpacity, Text, StyleSheet, View} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const item = (props) => {
     return (
@@ -9,9 +10,7 @@ const item = (props) => {
             style={styles.listItem}
         >
             <View style={styles.itemName}>
-                <Image
-                    source={require('../../../../ShoppingList/assets/images/soft_shoppingcart.png')}
-                    style={styles.shoppingCartIcon}/>
+                <Icon name="star" size={20} color="#900" style={styles.shoppingCartIcon} />
                 <Text>{props.itemName}</Text>
             </View>
         </TouchableOpacity>
