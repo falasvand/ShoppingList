@@ -9,8 +9,10 @@ const itemList = props => {
             data={props.items}
             renderItem={(info) => (
                 <Item
+                    isChecked={info.item.checked}
                     itemName={info.item.name}
-                    onItemPressed={() => props.onItemDeleted(info.item.key)}
+                    onItemPressed={() => props.onItemChecked(info.item.key, info.item.checked)}
+                    onItemLongPressed={() => props.onItemDeleted(info.item.key)}
                 />
             )}
         />

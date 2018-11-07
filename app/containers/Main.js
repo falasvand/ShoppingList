@@ -15,11 +15,19 @@ class Main extends React.Component {
         this.props.onDeleteItem(key);
     };
 
+    itemCheckedHandler = (key, checked) => {
+        this.props.onCheckItem(key, checked);
+    };
+
     render() {
         return (
             <View style={styles.container}>
                 <ItemInput onItemAdded={this.itemAddedHandler} />
-                <ItemList items={this.props.items} onItemDeleted={this.itemDeletedHandler} />
+                <ItemList
+                    items={this.props.items}
+                    onItemChecked={this.itemCheckedHandler}
+                    onItemDeleted={this.itemDeletedHandler}
+                />
             </View>
         );
     }
@@ -41,7 +49,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onAddItem: (name) => dispatch(actions.addItem(name)),
-        onDeleteItem: (key) => dispatch(actions.deleteItem(key))
+        onDeleteItem: (key) => dispatch(actions.deleteItem(key)),
+        onCheckItem: (key, isChecked) => dispatch(actions.checkItem(key, isChecked))
     }
 };
 
