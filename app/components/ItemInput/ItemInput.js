@@ -28,6 +28,7 @@ class ItemInput extends React.Component {
                     style={styles.textInput}
                     placeholder="Item Name"
                     value={this.state.itemName}
+                    placeholderTextColor="#ffffff"
                     underlineColorAndroid="transparent"
                     onChangeText={this.itemNameChangedHandler}>
                 </TextInput>
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         position: 'relative',
-        marginTop: 20,
+        marginTop: 15,
         marginBottom: 15
     },
     textInput: {
@@ -54,10 +55,10 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
         paddingLeft: 20,
-        backgroundColor: '#eae7e7',
+        backgroundColor: 'rgba(255, 255, 255, 0.4)',
         zIndex: 10,
         borderRadius: 10,
-        color: '#989696',
+        color: '#ffffff',
         fontWeight: 'bold'
     },
     buttonInput: {

@@ -14,7 +14,7 @@ const item = (props) => {
             style={styles.item}
         >
             <View style={styles.itemName}>
-                <Icon name="star" size={20} color="#900" style={styles.shoppingCartIcon} />
+                <Icon name="star" size={20} color="#37165b" style={styles.shoppingCartIcon} />
                 <Text>{props.itemName}</Text>
             </View>
             <View>{showCheckmark}</View>
@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: '#f5f5f5',
+        color: '#ffffff',
+        backgroundColor: 'rgba(255, 255, 255, 0.4)',
         padding: 10,
         paddingLeft: 15,
         paddingRight: 15,

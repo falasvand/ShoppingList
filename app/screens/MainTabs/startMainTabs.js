@@ -17,7 +17,8 @@ const startTabsScreen = () => {
                                     options: {
                                         bottomTab: {
                                             text: 'Cart',
-                                            icon: imageSources[0]
+                                            icon: imageSources[0],
+                                            selectedIconColor: '#56398c'
                                         }
                                     }
                                 },
@@ -28,7 +29,8 @@ const startTabsScreen = () => {
                                     options: {
                                         bottomTab: {
                                             text: 'Empty',
-                                            icon: imageSources[1]
+                                            icon: imageSources[1],
+                                            selectedIconColor: '#56398c'
                                         }
                                     }
                                 },

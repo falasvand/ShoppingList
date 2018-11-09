@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, View, ImageBackground} from "react-native";
 import * as actions from "../../redux/actions/items";
 import ItemInput from "../../components/ItemInput/ItemInput";
 import ItemList from "../../components/ItemList/ItemList";
+import backgroundImage from "../../../assets/images/purple_bg.jpg";
 
 class ShoppingCartScreen extends Component {
 
@@ -21,14 +22,16 @@ class ShoppingCartScreen extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <ItemInput onItemAdded={this.itemAddedHandler}/>
-                <ItemList
-                    items={this.props.items}
-                    onItemChecked={this.itemCheckedHandler}
-                    onItemDeleted={this.itemDeletedHandler}
-                />
-            </View>
+            <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
+                <View style={styles.container}>
+                    <ItemInput onItemAdded={this.itemAddedHandler}/>
+                    <ItemList
+                        items={this.props.items}
+                        onItemChecked={this.itemCheckedHandler}
+                        onItemDeleted={this.itemDeletedHandler}
+                    />
+                </View>
+            </ImageBackground>
         );
     }
 }
@@ -37,6 +40,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 10
+    },
+    backgroundImage: {
+        width: '100%',
+        flex: 1
     }
 });
 

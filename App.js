@@ -20,9 +20,9 @@ Navigation.setRoot({
             }],
             options: {
                 topBar: {
-                    title: {
-                        text: 'Login'
-                    }
+                    visible: false,
+                    drawBehind: true,
+                    animate: false
                 }
             }
         }
