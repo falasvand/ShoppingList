@@ -6,14 +6,10 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.ADD_ITEM:
+        case actionTypes.SET_ITEMS:
             return {
                 ...state,
-                items: state.items.concat({
-                    key: Math.random().toString(),
-                    name: action.itemName,
-                    checked: false
-                })
+                items: action.items
             };
         case actionTypes.CHECK_ITEM:
             return {

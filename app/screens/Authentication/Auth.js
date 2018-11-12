@@ -38,7 +38,7 @@ class AuthScreen extends Component {
                     controls: {
                         ...prevState.controls,
                         [key]: {
-                            ...prevState.control[key],
+                            ...prevState.controls[key],
                             value: value
                         }
                     }
@@ -50,14 +50,17 @@ class AuthScreen extends Component {
     render() {
         return (
             <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-                <View style={styles.container}>
+                <View style={styles.container} behavior="padding">
                     <View style={styles.mainContainer}>
                         <View style={styles.inputContainer}>
                             <Icon name="user" size={18} color="#ffffff" style={styles.inputIcon}/>
                             <Input
                                 placeholder="Email Address"
                                 value={this.state.controls.email.value}
-                                onChangeText={(val) => this.updateInputState('email', val)}
+                                onChangeText={val => this.updateInputState('email', val)}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                keyboardType="email-address"
                             />
                         </View>
                         <View style={styles.inputContainer}>
@@ -65,7 +68,9 @@ class AuthScreen extends Component {
                             <Input
                                 placeholder="Password"
                                 value={this.state.controls.password.value}
-                                onChangeText={(val) => this.updateInputState('password', val)}
+                                onChangeText={val => this.updateInputState('password', val)}
+                                autoCapitalize="none"
+                                secureTextEntry
                             />
                         </View>
                         <CustomButton

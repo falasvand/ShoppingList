@@ -1,5 +1,6 @@
 import React from 'react';
-import {KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
+import {connect} from 'react-redux';
+import {KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity, Image, ActivityIndicator} from 'react-native';
 
 class ItemInput extends React.Component {
 
@@ -22,6 +23,14 @@ class ItemInput extends React.Component {
     };
 
     render() {
+        let submitButton = (
+            <TouchableOpacity onPress={this.addItemHandler} style={styles.buttonInput}>
+                <Image source={require('../../../../ShoppingList/assets/images/basket_add.png')} />
+            </TouchableOpacity>
+        );
+        if (this.props.isLoading) {
+            submitButton =  <ActivityIndicator />;
+        }
         return (
             <KeyboardAvoidingView style={styles.header} behavior="padding" enabled>
                 <TextInput
@@ -32,9 +41,7 @@ class ItemInput extends React.Component {
                     underlineColorAndroid="transparent"
                     onChangeText={this.itemNameChangedHandler}>
                 </TextInput>
-                <TouchableOpacity onPress={this.addItemHandler} style={styles.buttonInput}>
-                    <Image source={require('../../../../ShoppingList/assets/images/basket_add.png')} />
-                </TouchableOpacity>
+                {submitButton}
             </KeyboardAvoidingView>
         );
     }
@@ -71,4 +78,10 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ItemInput;
+const mapStateToProps = state => {
+    return {
+        isLoading: state.ui.isLoading
+    }
+};
+
+export default connect(mapStateToProps)(ItemInput);
