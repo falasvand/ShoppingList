@@ -1,4 +1,6 @@
 export const SET_ITEMS = 'SET_ITEMS';
+export const ITEM_DELETED = 'ITEM_DELETED';
+export const ITEM_CHECKED = 'ITEM_CHECKED';
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const DELETE_ITEM = 'DELETE_ITEM';

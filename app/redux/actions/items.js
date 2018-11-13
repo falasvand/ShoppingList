@@ -17,7 +17,6 @@ export const addItem = itemName => {
         )
             .then(response => response.json())
             .then(parsedResponse => {
-                console.log(parsedResponse);
                 dispatch(uiStopLoading());
             })
             .catch(() => {
@@ -34,10 +33,12 @@ export const getItems = () => {
             .then(parsedResponse => {
                 const items = [];
                 for (const key in parsedResponse) {
-                    items.push({
-                        ...parsedResponse[key],
-                        key: key
-                    });
+                    if (parsedResponse[key].isDeleted !== true) {
+                        items.push({
+                            ...parsedResponse[key],
+                            key: key
+                        });
+                    }
                 }
                 dispatch(setItems(items));
             })
@@ -52,17 +53,64 @@ export const setItems = items => {
     }
 };
 
-export const checkItem = (itemKey, itemChecked) => {
+export const checkItem = item => {
+    return dispatch => {
+        const listData = {
+            name: item.name,
+            isChecked: !item.isChecked,
+            isDeleted: item.isDeleted,
+            dateAdded: item.dateAdded
+        };
+        dispatch(itemChecked(item.key, item.isChecked));
+        fetch('https://shopping-list-9524e.firebaseio.com/currentShoppingList/' + item.key + '.json', {
+                method: 'PUT',
+                body: JSON.stringify(listData)
+            }
+        )
+            .then(response => response.json())
+            .then(parsedResponse => {
+                console.log(parsedResponse);
+            })
+            .catch(() => {
+                alert('Something went wrong! Please try again.');
+            });
+    };
+};
+
+export const deleteItem = item => {
+    return dispatch => {
+        const listData = {
+            name: item.name,
+            isChecked: item.isChecked,
+            isDeleted: true,
+            dateAdded: item.dateAdded
+        };
+        fetch('https://shopping-list-9524e.firebaseio.com/currentShoppingList/' + item.key + '.json', {
+                method: 'PUT',
+                body: JSON.stringify(listData)
+            }
+        )
+            .then(response => response.json())
+            .then(parsedResponse => {
+                dispatch(itemDeleted(item.key));
+            })
+            .catch(() => {
+                alert('Something went wrong! Please try again.');
+            });
+    };
+};
+
+export const itemDeleted = itemKey => {
     return {
-        type: actionTypes.CHECK_ITEM,
-        key: itemKey,
-        checked: itemChecked
+        type: actionTypes.ITEM_DELETED,
+        key: itemKey
     }
 };
 
-export const deleteItem = itemKey => {
+export const itemChecked = (itemKey, isChecked) => {
     return {
-        type: actionTypes.DELETE_ITEM,
-        key: itemKey
+        type: actionTypes.ITEM_CHECKED,
+        key: itemKey,
+        isChecked: isChecked
     }
 };

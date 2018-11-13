@@ -11,14 +11,14 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 items: action.items
             };
-        case actionTypes.CHECK_ITEM:
+        case actionTypes.ITEM_CHECKED:
             return {
                 ...state,
                 items: state.items.map(
-                    item => item.key === action.key ? {...item, checked: !action.checked} : item
+                    item => item.key === action.key ? {...item, isChecked: !action.isChecked} : item
                 )
             };
-        case actionTypes.DELETE_ITEM:
+        case actionTypes.ITEM_DELETED:
             return {
                 ...state,
                 items: state.items.filter(

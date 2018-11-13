@@ -12,12 +12,12 @@ class ShoppingCartScreen extends Component {
         this.props.onAddItem(itemName);
     };
 
-    itemDeletedHandler = key => {
-        this.props.onDeleteItem(key);
+    itemDeletedHandler = item => {
+        this.props.onDeleteItem(item);
     };
 
-    itemCheckedHandler = (key, checked) => {
-        this.props.onCheckItem(key, checked);
+    itemCheckedHandler = item => {
+        this.props.onCheckItem(item);
     };
 
     render() {
@@ -55,9 +55,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddItem: (name) => dispatch(actions.addItem(name)),
-        onDeleteItem: (key) => dispatch(actions.deleteItem(key)),
-        onCheckItem: (key, isChecked) => dispatch(actions.checkItem(key, isChecked))
+        onAddItem: name => dispatch(actions.addItem(name)),
+        onDeleteItem: item => dispatch(actions.deleteItem(item)),
+        onCheckItem: item => dispatch(actions.checkItem(item))
     }
 };
 

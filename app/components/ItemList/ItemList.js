@@ -20,8 +20,8 @@ class itemList extends React.Component {
                         isChecked={info.item.isChecked}
                         itemName={info.item.name}
                         keyValue={info.item.key}
-                        onItemPressed={() => this.props.onItemChecked(info.item.key, info.item.checked)}
-                        onItemLongPressed={() => this.props.onItemDeleted(info.item.key)}
+                        onItemPressed={() => this.props.onItemChecked(info.item)}
+                        onItemLongPressed={() => this.props.onItemDeleted(info.item)}
                     />
                 )}
             />
