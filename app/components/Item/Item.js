@@ -1,26 +1,31 @@
 import React from 'react';
-import {TouchableOpacity, Text, StyleSheet, View} from 'react-native';
+import {connect} from 'react-redux';
+import {TouchableOpacity, Text, StyleSheet, View, ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const item = (props) => {
+class item extends React.Component {
 
-    const showCheckmark = props.isChecked ? <Icon name="check" size={20} color="#10a836" style={styles.shoppingCartIcon} /> : null;
-
-    return (
-        <TouchableOpacity
-            onPress={props.onItemPressed}
-            onLongPress={props.onItemLongPressed}
-            key={props.keyValue}
-            style={styles.item}
-        >
-            <View style={styles.itemName}>
-                <Icon name="star" size={20} color="#37165b" style={styles.shoppingCartIcon} />
-                <Text>{props.itemName}</Text>
-            </View>
-            <View>{showCheckmark}</View>
-        </TouchableOpacity>
-    );
-};
+    render() {
+        let showCheckmark = this.props.isChecked ? <Icon name="check" size={20} color="#10a836" style={styles.shoppingCartIcon} /> : null;
+        if ((this.props.itemBeingChecked === this.props.keyValue) && this.props.isLoadingCheckmark) {
+            showCheckmark = <ActivityIndicator/>;
+        }
+        return (
+            <TouchableOpacity
+                onPress={this.props.onItemPressed}
+                onLongPress={this.props.onItemLongPressed}
+                key={this.props.keyValue}
+                style={styles.item}
+            >
+                <View style={styles.itemName}>
+                    <Icon name="star" size={20} color="#37165b" style={styles.shoppingCartIcon} />
+                    <Text>{this.props.itemName}</Text>
+                </View>
+                <View>{showCheckmark}</View>
+            </TouchableOpacity>
+        );
+    }
+}
 
 const styles = StyleSheet.create({
     item: {
@@ -45,4 +50,11 @@ const styles = StyleSheet.create({
     }
 });
 
-export default item;
+const mapStateToProps = state => {
+    return {
+        isLoadingCheckmark: state.ui.isLoadingCheckmark,
+        itemBeingChecked: state.ui.itemBeingChecked
+    }
+};
+
+export default connect(mapStateToProps)(item);

@@ -29,7 +29,7 @@ class ItemInput extends React.Component {
             </TouchableOpacity>
         );
         if (this.props.isLoading) {
-            submitButton =  <ActivityIndicator />;
+            submitButton = <ActivityIndicator />;
         }
         return (
             <KeyboardAvoidingView style={styles.header} behavior="padding" enabled>

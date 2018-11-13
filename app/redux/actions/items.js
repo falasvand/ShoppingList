@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import {uiStartLoading, uiStopLoading} from './ui';
+import {uiStartLoading, uiStopLoading, checkmarkStartLoading, checkmarkStopLoading} from './ui';
 
 export const addItem = itemName => {
     return dispatch => {
@@ -17,6 +17,7 @@ export const addItem = itemName => {
         )
             .then(response => response.json())
             .then(parsedResponse => {
+                dispatch(getItems());
                 dispatch(uiStopLoading());
             })
             .catch(() => {
@@ -62,6 +63,7 @@ export const checkItem = item => {
             dateAdded: item.dateAdded
         };
         dispatch(itemChecked(item.key, item.isChecked));
+        dispatch(checkmarkStartLoading(item.key));
         fetch('https://shopping-list-9524e.firebaseio.com/currentShoppingList/' + item.key + '.json', {
                 method: 'PUT',
                 body: JSON.stringify(listData)
@@ -70,11 +72,21 @@ export const checkItem = item => {
             .then(response => response.json())
             .then(parsedResponse => {
                 console.log(parsedResponse);
+                dispatch(checkmarkStopLoading(item.key));
             })
             .catch(() => {
                 alert('Something went wrong! Please try again.');
+                dispatch(checkmarkStopLoading(item.key));
             });
     };
+};
+
+export const itemChecked = (itemKey, isChecked) => {
+    return {
+        type: actionTypes.ITEM_CHECKED,
+        key: itemKey,
+        isChecked: isChecked
+    }
 };
 
 export const deleteItem = item => {
@@ -104,13 +116,5 @@ export const itemDeleted = itemKey => {
     return {
         type: actionTypes.ITEM_DELETED,
         key: itemKey
-    }
-};
-
-export const itemChecked = (itemKey, isChecked) => {
-    return {
-        type: actionTypes.ITEM_CHECKED,
-        key: itemKey,
-        isChecked: isChecked
     }
 };
