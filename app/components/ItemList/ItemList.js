@@ -6,15 +6,30 @@ import {StyleSheet, FlatList} from 'react-native';
 
 class itemList extends React.Component {
 
+    state = {
+        refreshing: false
+    };
+
     componentDidMount() {
         this.props.onLoadItems();
     }
+
+    handleRefresh = () => {
+        this.setState({refreshing: true},
+            () => {
+                this.props.onLoadItems();
+                this.setState({refreshing: false});
+            }
+        );
+    };
 
     render() {
         return (
             <FlatList
                 style={styles.scrollContainer}
                 data={this.props.items}
+                refreshing={this.state.refreshing}
+                onRefresh={this.handleRefresh}
                 renderItem={(info) => (
                     <Item
                         isChecked={info.item.isChecked}

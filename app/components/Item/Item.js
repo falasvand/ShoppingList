@@ -6,19 +6,20 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 class item extends React.Component {
 
     render() {
-        let showCheckmark = this.props.isChecked ? <Icon name="check" size={20} color="#10a836" style={styles.shoppingCartIcon} /> : null;
+        let showCheckmark = this.props.isChecked ? <Icon name="check" size={20} color="#10a836" style={styles.checkmarkIcon} /> : null;
         if ((this.props.itemBeingChecked === this.props.keyValue) && this.props.isLoadingCheckmark) {
             showCheckmark = <ActivityIndicator/>;
         }
         return (
             <TouchableOpacity
+                disabled={this.props.isLoadingCheckmark}
                 onPress={this.props.onItemPressed}
                 onLongPress={this.props.onItemLongPressed}
                 key={this.props.keyValue}
                 style={styles.item}
             >
                 <View style={styles.itemName}>
-                    <Icon name="star" size={20} color="#37165b" style={styles.shoppingCartIcon} />
+                    <Icon name="star" size={20} color="#edc92d" style={styles.starIcon} />
                     <Text>{this.props.itemName}</Text>
                 </View>
                 <View>{showCheckmark}</View>
@@ -45,8 +46,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    shoppingCartIcon: {
-        marginRight: 12
+    starIcon: {
+        marginRight: 12,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5
+
+    },
+    checkmarkIcon: {
+        marginRight: 5
     }
 });
 

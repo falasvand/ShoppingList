@@ -23,18 +23,18 @@ const startTabsScreen = () => {
                                     }
                                 },
                             },
-                            {
-                                component: {
-                                    name: 'shopping-list.ShoppingCartScreen',
-                                    options: {
-                                        bottomTab: {
-                                            text: 'Empty',
-                                            icon: imageSources[1],
-                                            selectedIconColor: '#56398c'
-                                        }
-                                    }
-                                },
-                            }
+                            // {
+                            //     component: {
+                            //         name: 'shopping-list.ShoppingCartScreen',
+                            //         options: {
+                            //             bottomTab: {
+                            //                 text: 'Empty',
+                            //                 icon: imageSources[1],
+                            //                 selectedIconColor: '#56398c'
+                            //             }
+                            //         }
+                            //     },
+                            // }
                         ]
                     }
                 }
