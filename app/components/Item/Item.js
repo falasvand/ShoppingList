@@ -6,9 +6,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 class item extends React.Component {
 
     render() {
-        let showCheckmark = this.props.isChecked ? <Icon name="check" size={20} color="#10a836" style={styles.checkmarkIcon} /> : null;
+        let showCheckmark = (
+            this.props.isChecked ?
+                <Icon name="check-circle" size={22} color="#baf461" style={styles.checkmarkIcon} />
+                :
+                <Icon name="circle" size={22} color="#d9dde2" style={styles.checkmarkIcon} />
+        );
         if ((this.props.itemBeingChecked === this.props.keyValue) && this.props.isLoadingCheckmark) {
-            showCheckmark = <ActivityIndicator/>;
+            showCheckmark = <ActivityIndicator style={styles.checkmarkIcon} />;
         }
         return (
             <TouchableOpacity
@@ -19,7 +24,7 @@ class item extends React.Component {
                 style={styles.item}
             >
                 <View style={styles.itemName}>
-                    <Icon name="star" size={20} color="#edc92d" style={styles.starIcon} />
+                    <Icon name="caret-right" size={22} color="#d9dde2" style={styles.starIcon} />
                     <Text>{this.props.itemName}</Text>
                 </View>
                 <View>{showCheckmark}</View>
@@ -56,7 +61,7 @@ const styles = StyleSheet.create({
 
     },
     checkmarkIcon: {
-        marginRight: 5
+        marginRight: 6
     }
 });
 
