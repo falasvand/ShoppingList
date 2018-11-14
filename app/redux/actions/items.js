@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import {uiStartLoading, uiStopLoading, checkmarkStartLoading, checkmarkStopLoading} from './ui';
+import {uiStartLoading, uiStopLoading, checkmarkStartLoading, checkmarkStopLoading, getToken} from './index';
 
 export const addItem = itemName => {
     return dispatch => {
@@ -10,11 +10,15 @@ export const addItem = itemName => {
             dateAdded: new Date()
         };
         dispatch(uiStartLoading());
-        fetch('https://shopping-list-9524e.firebaseio.com/currentShoppingList.json', {
-                method: 'POST',
-                body: JSON.stringify(listData)
-            }
-        )
+        dispatch(getToken())
+            .then(token => {
+                return fetch('https://shopping-list-9524e.firebaseio.com/currentShoppingList.json?auth=' + token, {
+                        method: 'POST',
+                        body: JSON.stringify(listData)
+                    }
+                )
+            })
+            .catch(() => alert("No valid token found!"))
             .then(response => response.json())
             .then(parsedResponse => {
                 dispatch(getItems());
@@ -29,7 +33,11 @@ export const addItem = itemName => {
 
 export const getItems = () => {
     return dispatch => {
-        fetch('https://shopping-list-9524e.firebaseio.com/currentShoppingList.json')
+        dispatch(getToken())
+            .then(token => {
+                return fetch('https://shopping-list-9524e.firebaseio.com/currentShoppingList.json?auth=' + token)
+            })
+            .catch(() => alert("No valid token found!"))
             .then(res => res.json())
             .then(parsedResponse => {
                 const items = [];
@@ -62,16 +70,18 @@ export const checkItem = item => {
             isDeleted: item.isDeleted,
             dateAdded: item.dateAdded
         };
-        dispatch(itemChecked(item.key, item.isChecked));
         dispatch(checkmarkStartLoading(item.key));
-        fetch('https://shopping-list-9524e.firebaseio.com/currentShoppingList/' + item.key + '.json', {
-                method: 'PUT',
-                body: JSON.stringify(listData)
-            }
-        )
+        dispatch(getToken())
+            .catch(() => alert("No valid token found!"))
+            .then(token => {
+                dispatch(itemChecked(item.key, item.isChecked));
+                return fetch('https://shopping-list-9524e.firebaseio.com/currentShoppingList/' + item.key + '.json?auth=' + token, {
+                    method: 'PUT',
+                    body: JSON.stringify(listData)
+                })
+            })
             .then(response => response.json())
             .then(parsedResponse => {
-                console.log(parsedResponse);
                 dispatch(checkmarkStopLoading(item.key));
             })
             .catch(() => {
@@ -97,11 +107,15 @@ export const deleteItem = item => {
             isDeleted: true,
             dateAdded: item.dateAdded
         };
-        fetch('https://shopping-list-9524e.firebaseio.com/currentShoppingList/' + item.key + '.json', {
-                method: 'PUT',
-                body: JSON.stringify(listData)
-            }
-        )
+        dispatch(getToken())
+            .catch(() => alert("No valid token found!"))
+            .then(token => {
+                return fetch('https://shopping-list-9524e.firebaseio.com/currentShoppingList/' + item.key + '.json?auth=' + token, {
+                        method: 'PUT',
+                        body: JSON.stringify(listData)
+                    }
+                )
+            })
             .then(response => response.json())
             .then(parsedResponse => {
                 dispatch(itemDeleted(item.key));

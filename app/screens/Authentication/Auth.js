@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, ImageBackground} from 'react-native';
-import startTabsScreen from '../MainTabs/startMainTabs';
+import {View, StyleSheet, ImageBackground, ActivityIndicator, Keyboard} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {connect} from 'react-redux';
 import Input from '../../UI/Input/Input';
 import CustomButton from '../../UI/Button/Button';
 import backgroundImage from '../../../assets/images/login_background.jpg';
+import {tryAuth, authAutoSignIn} from "../../redux/actions/auth";
 
 class AuthScreen extends Component {
 
@@ -27,8 +28,17 @@ class AuthScreen extends Component {
         }
     };
 
+    componentDidMount() {
+        this.props.onAutoSignIn();
+    }
+
     loginHandler = () => {
-        startTabsScreen();
+        Keyboard.dismiss();
+        const authData = {
+            email: this.state.controls.email.value,
+            password: this.state.controls.password.value
+        };
+        this.props.onLogin(authData);
     };
 
     updateInputState = (key, value) => {
@@ -48,6 +58,16 @@ class AuthScreen extends Component {
     };
 
     render() {
+        let loginButton = (
+            <CustomButton
+                color="#ccbce0"
+                onLogin={this.loginHandler}>
+                LOGIN
+            </CustomButton>
+        );
+        if (this.props.isLoading) {
+            loginButton = <ActivityIndicator />;
+        }
         return (
             <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
                 <View style={styles.container} behavior="padding">
@@ -73,12 +93,7 @@ class AuthScreen extends Component {
                                 secureTextEntry
                             />
                         </View>
-                        <CustomButton
-                            color="#ccbce0"
-                            onLogin={this.loginHandler}
-                            style={styles.loginButton}>
-                            LOGIN
-                        </CustomButton>
+                        {loginButton}
                     </View>
                 </View>
             </ImageBackground>
@@ -114,4 +129,17 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AuthScreen;
+const mapStateToProps = state => {
+    return {
+        isLoading: state.ui.isLoading
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onLogin: authData => dispatch(tryAuth(authData)),
+        onAutoSignIn: () => dispatch(authAutoSignIn())
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);
