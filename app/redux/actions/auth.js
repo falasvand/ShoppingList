@@ -3,11 +3,12 @@ import {uiStartLoading, uiStopLoading} from "./ui";
 import {AUTH_SET_TOKEN} from "./actionTypes";
 import startTabsScreen from '../../screens/MainTabs/startMainTabs';
 
+const API_KEY = 'AIzaSyDTQw-GfCEs1wnrDCnfp0UxOEoCzn1w_Zs';
+
 export const tryAuth = authData => {
     return dispatch => {
         dispatch(uiStartLoading());
-        const apiKey = 'AIzaSyDTQw-GfCEs1wnrDCnfp0UxOEoCzn1w_Zs';
-        fetch('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' + apiKey,
+        fetch('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' + API_KEY,
             {
                 method: "POST",
                 body: JSON.stringify({
@@ -31,20 +32,21 @@ export const tryAuth = authData => {
                 if (!parsedRes.idToken) {
                     alert("Authentication failed, please try again!");
                 } else {
-                    dispatch(storeToken(parsedRes.idToken, parsedRes.expiresIn));
+                    dispatch(storeToken(parsedRes.idToken, parsedRes.expiresIn, parsedRes.refreshToken));
                     startTabsScreen();
                 }
             })
     }
 };
 
-export const storeToken = (token, expiresIn) => {
+export const storeToken = (token, expiresIn, refreshToken) => {
     return dispatch => {
         dispatch(setToken(token));
         const now = new Date();
         const expiryDate = now.getTime() + expiresIn * 1000;
         AsyncStorage.setItem("authToken", token);
         AsyncStorage.setItem("expirationDate", expiryDate.toString());
+        AsyncStorage.setItem("refreshToken", refreshToken);
     }
 };
 
@@ -88,10 +90,42 @@ export const getToken = () => {
                 }
             }
         );
-        promise.catch(() => {
-            dispatch(clearStorage());
-        });
-        return promise;
+        return promise
+            .catch(() => {
+                return AsyncStorage.getItem("refreshToken")
+                    .then(refreshToken => {
+                        return fetch("https://securetoken.googleapis.com/v1/token?key=" + API_KEY,
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/x-www-form-urlencoded"
+                                },
+                                body: "grant_type=refresh_token&refresh_token=" + refreshToken
+                            });
+                    })
+                    .then(res => res.json())
+                    .then(parsedRes => {
+                        if (parsedRes.id_token) {
+                            dispatch(
+                                storeToken(
+                                    parsedRes.id_token,
+                                    parsedRes.expires_in,
+                                    parsedRes.refresh_token
+                                )
+                            );
+                            return parsedRes.id_token;
+                        } else {
+                            dispatch(clearStorage());
+                        }
+                    });
+            })
+            .then(token => {
+                if (!token) {
+                    throw (new Error());
+                } else {
+                    return token;
+                }
+            });
     }
 };
 
