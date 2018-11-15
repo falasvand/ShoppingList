@@ -62,11 +62,10 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
         paddingLeft: 20,
-        backgroundColor: 'rgba(255, 255, 255, 0.4)',
+        backgroundColor: 'rgba(255, 255, 255, 0.25)',
         zIndex: 10,
         borderRadius: 10,
-        color: '#ffffff',
-        fontWeight: 'bold'
+        fontFamily: 'Open Sans'
     },
     buttonInput: {
         width: '20%',

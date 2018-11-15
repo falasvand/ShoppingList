@@ -12,8 +12,8 @@ const CustomButton = props => (
 const styles = StyleSheet.create({
     button: {
         width: '100%',
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingTop: 12,
+        paddingBottom: 12,
         borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center'

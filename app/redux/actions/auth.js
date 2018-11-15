@@ -1,6 +1,7 @@
+import {Navigation} from "react-native-navigation";
 import {AsyncStorage} from 'react-native';
 import {uiStartLoading, uiStopLoading} from "./ui";
-import {AUTH_SET_TOKEN} from "./actionTypes";
+import {AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN} from "./actionTypes";
 import startTabsScreen from '../../screens/MainTabs/startMainTabs';
 
 const API_KEY = 'AIzaSyDTQw-GfCEs1wnrDCnfp0UxOEoCzn1w_Zs';
@@ -41,19 +42,20 @@ export const tryAuth = authData => {
 
 export const storeToken = (token, expiresIn, refreshToken) => {
     return dispatch => {
-        dispatch(setToken(token));
         const now = new Date();
         const expiryDate = now.getTime() + expiresIn * 1000;
+        dispatch(setToken(token, expiryDate));
         AsyncStorage.setItem("authToken", token);
         AsyncStorage.setItem("expirationDate", expiryDate.toString());
         AsyncStorage.setItem("refreshToken", refreshToken);
     }
 };
 
-export const setToken = token => {
+export const setToken = (token, expiryDate) => {
     return {
         type: AUTH_SET_TOKEN,
-        token: token
+        token: token,
+        expiryDate: expiryDate
     }
 };
 
@@ -62,7 +64,8 @@ export const getToken = () => {
         const promise = new Promise(
             (resolve, reject) => {
                 const token = getState().auth.token;
-                if (!token) {
+                const expiryDate = getState().auth.expiryDate;
+                if (!token || new Date(expiryDate) <= new Date()) {
                     let fetchedToken;
                     AsyncStorage.getItem("authToken")
                         .catch(() => reject())
@@ -141,5 +144,39 @@ export const clearStorage = () => {
     return dispatch => {
         AsyncStorage.removeItem("authToken");
         AsyncStorage.removeItem("expirationDate");
+        return AsyncStorage.removeItem("refreshToken");
+    }
+};
+
+export const authLogout = () => {
+    return dispatch => {
+        dispatch(clearStorage())
+            .then(() => {
+                Navigation.setRoot({
+                    root: {
+                        stack: {
+                            children: [{
+                                component: {
+                                    name: 'shopping-list.AuthScreen'
+                                }
+                            }],
+                            options: {
+                                topBar: {
+                                    visible: false,
+                                    drawBehind: true,
+                                    animate: false
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        dispatch(authRemoveToken());
+    }
+};
+
+export const authRemoveToken = () => {
+    return {
+        type: AUTH_REMOVE_TOKEN
     }
 };

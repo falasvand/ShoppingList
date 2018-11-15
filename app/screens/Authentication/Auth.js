@@ -60,7 +60,7 @@ class AuthScreen extends Component {
     render() {
         let loginButton = (
             <CustomButton
-                color="#ccbce0"
+                color="#967ADC"
                 onLogin={this.loginHandler}>
                 LOGIN
             </CustomButton>
@@ -70,7 +70,7 @@ class AuthScreen extends Component {
         }
         return (
             <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-                <View style={styles.container} behavior="padding">
+                <View style={styles.container}>
                     <View style={styles.mainContainer}>
                         <View style={styles.inputContainer}>
                             <Icon name="user" size={18} color="#ffffff" style={styles.inputIcon}/>
@@ -120,8 +120,8 @@ const styles = StyleSheet.create({
     inputIcon: {
         position: 'absolute',
         left: 18,
-        top: 10,
-        marginRight: 12
+        top: 12,
+        marginRight: 13
     },
     backgroundImage: {
         width: '100%',

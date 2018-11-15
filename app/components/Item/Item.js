@@ -39,13 +39,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        color: '#ffffff',
-        backgroundColor: 'rgba(255, 255, 255, 0.4)',
+        fontFamily: 'Open Sans',
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
         padding: 10,
         paddingLeft: 15,
         paddingRight: 15,
-        marginTop: 5,
-        borderRadius: 10
+        marginTop: 3,
+        borderRadius: 5
     },
     itemName: {
         flexDirection: 'row',
