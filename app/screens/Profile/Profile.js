@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ImageBackground, StyleSheet, View} from "react-native";
 import CustomButton from "../../UI/Button/Button";
 import {authLogout} from '../../redux/actions/index';
-import backgroundImage from "../../../assets/images/purple_bg.jpg";
+import backgroundImage from "../../../assets/images/black_bg.jpg";
 
 class ProfileScreen extends Component {
 
@@ -17,7 +17,7 @@ class ProfileScreen extends Component {
                 <View style={styles.container}>
                     <View style={styles.mainContainer}>
                         <CustomButton
-                            color="#967ADC"
+                            color="#434a54"
                             onLogin={this.logoutHandler}>
                             LOGOUT
                         </CustomButton>

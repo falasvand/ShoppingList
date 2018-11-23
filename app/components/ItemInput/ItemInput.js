@@ -35,7 +35,7 @@ class ItemInput extends React.Component {
             <KeyboardAvoidingView style={styles.header} behavior="padding" enabled>
                 <TextInput
                     style={styles.textInput}
-                    placeholder="Item Name"
+                    placeholder="Item Name..."
                     value={this.state.itemName}
                     placeholderTextColor="#ffffff"
                     underlineColorAndroid="transparent"
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         position: 'relative',
-        marginTop: 15,
-        marginBottom: 15
+        marginTop: 10,
+        marginBottom: 10
     },
     textInput: {
         width: '100%',

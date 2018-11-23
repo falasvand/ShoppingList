@@ -10,7 +10,7 @@ class item extends React.Component {
             this.props.isChecked ?
                 <Icon name="check-circle" size={22} color="#baf461" style={styles.checkmarkIcon} />
                 :
-                <Icon name="circle" size={22} color="#d9dde2" style={styles.checkmarkIcon} />
+                <Icon name="circle" size={22} color="#eeeeee" style={styles.checkmarkIcon} />
         );
         if ((this.props.itemBeingChecked === this.props.keyValue) && this.props.isLoadingCheckmark) {
             showCheckmark = <ActivityIndicator style={styles.checkmarkIcon} />;
@@ -24,8 +24,11 @@ class item extends React.Component {
                 style={styles.item}
             >
                 <View style={styles.itemName}>
-                    <Icon name="caret-right" size={22} color="#d9dde2" style={styles.starIcon} />
-                    <Text>{this.props.itemName}</Text>
+                    <Icon name="caret-right" size={22} color="#eeeeee" style={styles.starIcon} />
+                    <View>
+                        <Text style={styles.itemNameStyle}>{this.props.itemName}</Text>
+                        <Text style={styles.itemDateStyle}>Added on {this.props.dateAdded}</Text>
+                    </View>
                 </View>
                 <View>{showCheckmark}</View>
             </TouchableOpacity>
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
         padding: 10,
         paddingLeft: 15,
         paddingRight: 15,
-        marginTop: 3,
+        marginTop: 2,
         borderRadius: 5
     },
     itemName: {
@@ -62,6 +65,14 @@ const styles = StyleSheet.create({
     },
     checkmarkIcon: {
         marginRight: 6
+    },
+    itemNameStyle: {
+        color: '#eeeeee',
+        fontSize: 16
+    },
+    itemDateStyle: {
+        color: '#d7d7d7',
+        fontSize: 12
     }
 });
 

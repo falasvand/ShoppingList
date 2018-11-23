@@ -4,7 +4,7 @@ import {StyleSheet, View, ImageBackground} from "react-native";
 import * as actions from "../../redux/actions/items";
 import ItemInput from "../../components/ItemInput/ItemInput";
 import ItemList from "../../components/ItemList/ItemList";
-import backgroundImage from "../../../assets/images/purple_bg.jpg";
+import backgroundImage from "../../../assets/images/black_bg.jpg";
 
 class ShoppingCartScreen extends Component {
 
@@ -39,7 +39,8 @@ class ShoppingCartScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 10
+        padding: 10,
+        paddingTop: 0
     },
     backgroundImage: {
         width: '100%',

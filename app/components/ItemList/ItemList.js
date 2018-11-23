@@ -34,6 +34,7 @@ class itemList extends React.Component {
                     <Item
                         isChecked={info.item.isChecked}
                         itemName={info.item.name}
+                        dateAdded={info.item.dateAdded.substring(0,10)}
                         keyValue={info.item.key}
                         onItemPressed={() => this.props.onItemChecked(info.item)}
                         onItemLongPressed={() => this.props.onItemDeleted(info.item)}
